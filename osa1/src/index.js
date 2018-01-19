@@ -1,12 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Hello = (props) => {
-  return (
-    <div>
-      <p>Hello {props.name}, you are {props.age} years old</p>
-    </div>
-  )
+class Hello extends React.Component {
+  render() {
+    const bornYear = () => {
+      const yearNow = 1900 + new Date().getYear()
+      return yearNow - this.props.age
+    }
+
+    return (
+      <div>
+        <p>
+          Hello {this.props.name}, you are {this.props.age} years old <br />
+          So you were propably born {bornYear()}
+        </p>
+      </div>
+    )
+  }
 }
 
 const App = () => {
