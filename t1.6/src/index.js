@@ -8,29 +8,57 @@ class App extends React.Component {
         this.state = {
             hyva: 0,
             huono: 0,
-            neutraali: 0
+            neutraali: 0,
+            summa: 0,
+            aania: 0,
+            positiivisia: 0
         }
     }
 
     klikHyva = () => {
         this.setState({
-            hyva: this.state.hyva + 1
+            hyva: this.state.hyva + 1,
+            summa: this.state.summa + 1,
+            aania: this.state.aania + 1,
+            positiivisia: this.state.positiivisia + 1
         })
     }
 
     klikHuono = () => {
         this.setState({
-            huono: this.state.huono + 1
+            huono: this.state.huono + 1,
+            summa: this.state.summa - 1,
+            aania: this.state.aania + 1
         })
     }
 
     klikNeutraali = () => {
         this.setState({
-            neutraali: this.state.neutraali + 1
+            neutraali: this.state.neutraali + 1,
+            aania: this.state.aania + 1
         })
     }
 
+
+
     render() {
+        const annaKeskiarvoJaProsentit = () => {
+            if (this.state.aania == 0) {
+                return (
+                    <div>
+                        <p> Keskiarvo: 0</p>
+                        <p> Positiivisia: 0 % </p>
+                    </div>
+                )
+            }
+            return (
+                <div>
+                    <p> Keskiarvo: {this.state.summa / this.state.aania}</p>
+                    <p> Positiivisia: {(this.state.positiivisia / this.state.aania) * 100} % </p>
+                </div>
+            )
+        }
+        
         return (
             <div>
                 <h1>Anna palautetta</h1>
@@ -44,6 +72,8 @@ class App extends React.Component {
                 <p> Hyvä: {this.state.hyva} </p>
                 <p> Neutraali: {this.state.neutraali} </p>
                 <p> Huono: {this.state.huono} </p>
+                {annaKeskiarvoJaProsentit()}
+
             </div>
         )
     }
