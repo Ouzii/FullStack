@@ -28,22 +28,12 @@ const Statistic = ({ toiminto, teksti }) => (
 )
 
 const annaKeskiarvo = (props) => {
-    if (props.state.aania === 0) {
-        return (
-            0
-        )
-    }
     return (
         props.state.summa / props.state.aania
     )
 }
 
 const annaProsentit = (props) => {
-    if (props.state.aania === 0) {
-        return (
-            0 + "%"
-        )
-    }
     return (
         (props.state.hyva / props.state.aania) * 100 + "%"
     )
@@ -96,7 +86,26 @@ class App extends React.Component {
 
 
     render() {
+        if (this.state.aania === 0) {
+            return (
+                <div>
+                    <h1>Anna palautetta</h1>
+                    <div>
+                        <Button handleClick={this.klikHyva()} teksti="Hyvä" />
+                        <Button handleClick={this.klikNeutraali()} teksti="Neutraali" />
+                        <Button handleClick={this.klikHuono()} teksti="Huono" />
+                    </div>
+                    <div>
+                        <h1> Statistiikka </h1>
+                        <p> Ei yhtään palautetta annettu </p>
+                    </div>
+                </div>
+            )
+        }
         return (
+
+
+
             <div>
                 <h1>Anna palautetta</h1>
                 <div>
