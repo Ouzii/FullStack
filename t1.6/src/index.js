@@ -53,36 +53,33 @@ class App extends React.Component {
         }
     }
 
-    klikHyva = () => {
-        return () => {
-            this.setState({
-                hyva: this.state.hyva + 1,
-                summa: this.state.summa + 1,
-                aania: this.state.aania + 1,
-                positiivisia: this.state.positiivisia + 1
-            })
+    klikNappia = (tila) => {
+        if (tila === "hyva") {
+            return () => {
+                this.setState({
+                    hyva: this.state.hyva + 1,
+                    summa: this.state.summa + 1,
+                    aania: this.state.aania + 1,
+                    positiivisia: this.state.positiivisia + 1
+                })
+            }
+        } else if (tila === "neutraali") {
+            return () => {
+                this.setState({
+                    neutraali: this.state.neutraali + 1,
+                    aania: this.state.aania + 1
+                })
+            }
+        } else {
+            return () => {
+                this.setState({
+                    huono: this.state.huono + 1,
+                    summa: this.state.summa - 1,
+                    aania: this.state.aania + 1
+                })
+            }
         }
     }
-
-    klikHuono = () => {
-        return () => {
-            this.setState({
-                huono: this.state.huono + 1,
-                summa: this.state.summa - 1,
-                aania: this.state.aania + 1
-            })
-        }
-    }
-
-    klikNeutraali = () => {
-        return () => {
-            this.setState({
-                neutraali: this.state.neutraali + 1,
-                aania: this.state.aania + 1
-            })
-        }
-    }
-
 
 
     render() {
@@ -91,9 +88,9 @@ class App extends React.Component {
                 <div>
                     <h1>Anna palautetta</h1>
                     <div>
-                        <Button handleClick={this.klikHyva()} teksti="Hyvä" />
-                        <Button handleClick={this.klikNeutraali()} teksti="Neutraali" />
-                        <Button handleClick={this.klikHuono()} teksti="Huono" />
+                        <Button handleClick={this.klikNappia("hyva")} teksti="Hyvä" />
+                        <Button handleClick={this.klikNappia("neutraali")} teksti="Neutraali" />
+                        <Button handleClick={this.klikNappia("huono")} teksti="Huono" />
                     </div>
                     <div>
                         <h1> Statistiikka </h1>
@@ -103,19 +100,16 @@ class App extends React.Component {
             )
         }
         return (
-
-
-
             <div>
                 <h1>Anna palautetta</h1>
                 <div>
-                    <Button handleClick={this.klikHyva()} teksti="Hyvä" />
-                    <Button handleClick={this.klikNeutraali()} teksti="Neutraali" />
-                    <Button handleClick={this.klikHuono()} teksti="Huono" />
+                    <Button handleClick={this.klikNappia("hyva")} teksti="Hyvä" />
+                    <Button handleClick={this.klikNappia("neutraali")} teksti="Neutraali" />
+                    <Button handleClick={this.klikNappia("huono")} teksti="Huono" />
                 </div>
                 <div>
                     <h1> Statistiikka </h1>
-                    <Statistics state={this.state} klikHyva={this.klikHyva()} klikNeutraali={this.klikNeutraali()} klikHuono={this.klikHuono()} />
+                    <Statistics state={this.state} />
                 </div>
             </div>
         )
