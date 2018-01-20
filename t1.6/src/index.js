@@ -14,17 +14,24 @@ const Button = ({ handleClick, teksti }) => {
 const Statistics = (props) => {
     return (
         <div>
-            <Statistic toiminto={props.state.hyva} teksti="Hyvä" />
-            <Statistic toiminto={props.state.neutraali} teksti="Neutraali" />
-            <Statistic toiminto={props.state.huono} teksti="Huono" />
-            <Statistic toiminto={annaKeskiarvo(props)} teksti="Keskiarvo" />
-            <Statistic toiminto={annaProsentit(props)} teksti="Positiivisia" />
+            <table>
+                <tbody>
+                    <Statistic toiminto={props.state.hyva} teksti="Hyvä" />
+                    <Statistic toiminto={props.state.neutraali} teksti="Neutraali" />
+                    <Statistic toiminto={props.state.huono} teksti="Huono" />
+                    <Statistic toiminto={annaKeskiarvo(props)} teksti="Keskiarvo" />
+                    <Statistic toiminto={annaProsentit(props)} teksti="Positiivisia" />
+                </tbody>
+            </table>
         </div>
     )
 }
 
 const Statistic = ({ toiminto, teksti }) => (
-    <p> {teksti}: {toiminto}</p>
+    <tr>
+        <td> {teksti}</td>
+        <td>{toiminto}</td>
+    </tr>
 )
 
 const annaKeskiarvo = (props) => {
