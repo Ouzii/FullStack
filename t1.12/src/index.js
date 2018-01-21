@@ -1,6 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+const Button = ({handleClick, text}) => {
+    return (
+        <button onClick={handleClick}>
+            {text}
+        </button>
+    )
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -8,11 +16,19 @@ class App extends React.Component {
       selected: 0
     }
   }
-
+  generateNew = (state) => {
+    return () => {
+        this.setState({
+            selected: Math.floor(Math.random() * Math.floor(6))
+        })
+    }   
+}
   render() {
     return (
       <div>
-        {this.props.anecdotes[Math.floor(Math.random() * Math.floor(6))]}
+        {this.props.anecdotes[this.state.selected]}
+        <br></br>
+        <Button handleClick={this.generateNew(this.state)} text="Next anecdote" />
       </div>
     )
   }
