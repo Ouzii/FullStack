@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Note from './components/Note'
 
-class App extends Component {
-  render() {
+
+const App = ({ notes }) => {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <h1>Muistiinpanot</h1>
+        <ul>
+          {notes.map(note=><Note key={note.id} note={note}/>)}
+        </ul>
       </div>
-    );
+    )
   }
-}
 
-export default App;
+  export default App
