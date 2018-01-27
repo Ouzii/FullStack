@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Person = ( {persons} ) => {
+const Person = ({ persons }) => {
   return (
     <div>
-      {persons.map(person => <p>{person.name}</p>)}
+      {persons.map(person => <p key={person.name}>{person.name}</p>)}
     </div>
   )
 }
@@ -19,21 +19,42 @@ class App extends React.Component {
     }
   }
 
+  handleNameChange = (event) => {
+    this.setState({
+      newName: event.target.value
+    })
+  }
 
+  addName = (event) => {
+    event.preventDefault()
+    const person = {
+      name: this.state.newName
+    }
+
+    const persons = this.state.persons.concat(person)
+    this.setState({
+      persons,
+      newName: ''
+    })
+  }
   render() {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
-        <form>
+        <form onSubmit={this.addName}>
           <div>
-            nimi: <input />
+            nimi: <input
+            value={this.state.newName}
+            placeholder='Anna lisättävä nimi'
+            onChange={this.handleNameChange}
+            />
           </div>
           <div>
             <button type="submit">lisää</button>
           </div>
         </form>
         <h2>Numerot</h2>
-        <Person persons={this.state.persons}/>
+        <Person persons={this.state.persons} />
       </div>
     )
   }
