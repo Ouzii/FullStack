@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Note from './components/Note'
 import App from './App'
 
 const notes = [
