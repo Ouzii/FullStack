@@ -31,11 +31,19 @@ class App extends React.Component {
       name: this.state.newName
     }
 
-    const persons = this.state.persons.concat(person)
-    this.setState({
-      persons,
-      newName: ''
-    })
+    let isOld = function (element) {
+      return element.name.toUpperCase() === person.name.toUpperCase()
+    }
+    
+    if (this.state.persons.some(isOld)) {
+      alert("Nimi on jo listassa")
+    } else {
+      const persons = this.state.persons.concat(person)
+      this.setState({
+        persons,
+        newName: ''
+      })
+    }
   }
   render() {
     return (
@@ -44,9 +52,9 @@ class App extends React.Component {
         <form onSubmit={this.addName}>
           <div>
             nimi: <input
-            value={this.state.newName}
-            placeholder='Anna lisättävä nimi'
-            onChange={this.handleNameChange}
+              value={this.state.newName}
+              placeholder='Anna lisättävä nimi'
+              onChange={this.handleNameChange}
             />
           </div>
           <div>
