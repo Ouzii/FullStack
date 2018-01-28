@@ -5,7 +5,7 @@ const getAll = () => {
     const request = axios.get(baseUrl)
     const nonExisting = {
       id: 10000,
-      content: 'Tätä muistiinpanoa ei ole palvelimelta',
+      content: 'Tätä muistiinpanoa ei ole palvelimella',
       date: '2017-12-10T17:30:31.098Z',
       important: true
     }

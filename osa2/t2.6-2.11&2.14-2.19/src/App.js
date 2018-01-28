@@ -1,6 +1,7 @@
 import React from 'react';
 import Person from './components/Person'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      findWith: ''
+      findWith: '',
+      notification: null,
     }
   }
 
@@ -37,11 +39,16 @@ class App extends React.Component {
         .destroy(id)
         .then(response => {
           this.setState({
-            persons: this.state.persons.filter(person => person.id !== id)
+            persons: this.state.persons.filter(person => person.id !== id),
+            notification: `${name} poistettu onnistuneesti`
           })
+          setTimeout(() => {
+            this.setState({ notification: null})
+          }, 3000)
         })
     }
   }
+
 
   addName = (event) => {
     event.preventDefault()
@@ -66,8 +73,25 @@ class App extends React.Component {
             this.setState({
               persons: persons.concat(updatedPerson),
               newName: '',
-              newNumber: ''
+              newNumber: '',
+              notification: `${person.name} päivitetty onnistuneesti`
             })
+            setTimeout(() => {
+              this.setState({ notification: null})
+            }, 3000)
+          })
+          .catch(error => {
+            personService
+            .create(person)
+            .then(response => {
+              this.componentWillMount()
+              this.setState({
+                notification: `${person.name} päivitetty onnistuneesti`
+              })
+            })
+            setTimeout(() => {
+              this.setState({ notification: null})
+            }, 3000)
           })
       }
     } else {
@@ -78,8 +102,12 @@ class App extends React.Component {
           this.setState({
             persons: this.state.persons.concat(newPerson),
             newName: '',
-            newNumber: ''
+            newNumber: '',
+            notification: `${person.name} lisätty onnistuneesti`
           })
+          setTimeout(() => {
+            this.setState({ notification: null })
+          }, 3000)
         })
     }
   }
@@ -98,6 +126,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification message={this.state.notification} />
         Rajaa luetteloa: <input
           placeholder='Nimi'
           value={this.state.findWith}
