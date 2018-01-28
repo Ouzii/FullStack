@@ -1,6 +1,5 @@
 import React from 'react';
 import Person from './components/Person'
-import axios from 'axios'
 import personService from './services/persons'
 
 class App extends React.Component {
@@ -30,6 +29,18 @@ class App extends React.Component {
     this.setState({
       findWith: event.target.value
     })
+  }
+
+  deletePerson = (id, name) => {
+    if (window.confirm(`Poistetaanko ${name} listalta`)) {
+      personService
+        .destroy(id)
+        .then(response => {
+          this.setState({
+            persons: this.state.persons.filter(person => person.id !== id)
+          })
+        })
+    }
   }
 
   addName = (event) => {
@@ -99,7 +110,7 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <Person persons={personsToShow} />
+        <Person persons={personsToShow} deletePerson={this.deletePerson} />
       </div>
     )
   }
