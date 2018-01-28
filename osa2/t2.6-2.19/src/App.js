@@ -3,7 +3,11 @@ import React from 'react';
 const Person = ({ persons }) => {
   return (
     <div>
-      {persons.map(person => <p key={person.name}>{person.name}</p>)}
+      <table>
+        <tbody>
+          {persons.map(person => <tr key={person.name}><td>{person.name}</td><td>{person.number}</td></tr>)}
+        </tbody>
+      </table>
     </div>
   )
 }
@@ -13,9 +17,13 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        { name: 'Arto Hellas' }
+        {
+          name: 'Arto Hellas',
+          number: '040-123456'
+        }
       ],
-      newName: ''
+      newName: '',
+      newNumber: '',
     }
   }
 
@@ -25,23 +33,31 @@ class App extends React.Component {
     })
   }
 
+  handleNumberChange = (event) => {
+    this.setState({
+      newNumber: event.target.value
+    })
+  }
+
   addName = (event) => {
     event.preventDefault()
     const person = {
-      name: this.state.newName
+      name: this.state.newName,
+      number: this.state.newNumber
     }
 
     let isOld = function (element) {
       return element.name.toUpperCase() === person.name.toUpperCase()
     }
-    
+
     if (this.state.persons.some(isOld)) {
       alert("Nimi on jo listassa")
     } else {
       const persons = this.state.persons.concat(person)
       this.setState({
         persons,
-        newName: ''
+        newName: '',
+        newNumber: ''
       })
     }
   }
@@ -55,6 +71,13 @@ class App extends React.Component {
               value={this.state.newName}
               placeholder='Anna lisättävä nimi'
               onChange={this.handleNameChange}
+            />
+          </div>
+          <div>
+            numero: <input
+              value={this.state.newNumber}
+              placeholder='Anna lisättävä numero'
+              onChange={this.handleNumberChange}
             />
           </div>
           <div>
