@@ -1,16 +1,6 @@
 import React from 'react';
+import Person from './components/Person'
 
-const Person = ({ persons }) => {
-  return (
-    <div>
-      <table>
-        <tbody>
-          {persons.map(person => <tr key={person.name}><td>{person.name}</td><td>{person.number}</td></tr>)}
-        </tbody>
-      </table>
-    </div>
-  )
-}
 
 class App extends React.Component {
   constructor(props) {
@@ -99,7 +89,6 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        {console.log(personsToShow)}
         <Person persons={personsToShow} />
       </div>
     )
