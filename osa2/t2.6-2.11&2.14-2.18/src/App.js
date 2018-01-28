@@ -1,6 +1,7 @@
 import React from 'react';
 import Person from './components/Person'
 import axios from 'axios'
+import personService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class App extends React.Component {
       number: this.state.newNumber
     }
 
-    
+
     let isOld = function (element) {
       return element.name.toUpperCase() === person.name.toUpperCase()
     }
@@ -46,26 +47,30 @@ class App extends React.Component {
     if (this.state.persons.some(isOld)) {
       alert("Nimi on jo listassa")
     } else {
-      const persons = this.state.persons.concat(person)
-      this.setState({
-        persons,
-        newName: '',
-        newNumber: ''
-      })
+
+      personService
+        .create(person)
+        .then(newPerson => {
+          this.setState({
+            persons: this.state.persons.concat(newPerson),
+            newName: '',
+            newNumber: ''
+          })
+        })
     }
   }
 
   componentWillMount() {
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        this.setState({ persons: response.data })
+        this.setState({ persons: response })
       })
   }
 
   render() {
-    const personsToShow = 
-       this.state.findWith.length === 0 ? this.state.persons : this.state.persons.filter(person => person.name.toUpperCase().includes(this.state.findWith.toUpperCase()))
+    const personsToShow =
+      this.state.findWith.length === 0 ? this.state.persons : this.state.persons.filter(person => person.name.toUpperCase().includes(this.state.findWith.toUpperCase()))
     return (
       <div>
         <h2>Puhelinluettelo</h2>
