@@ -17,13 +17,14 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [
-        {
-          name: 'Arto Hellas',
-          number: '040-123456'
-        }
+        { name: 'Arto Hellas', number: '040-123456' },
+        { name: 'Martti Tienari', number: '040-123456' },
+        { name: 'Arto Järvinen', number: '040-123456' },
+        { name: 'Lea Kutvonen', number: '040-123456' }
       ],
       newName: '',
       newNumber: '',
+      findWith: ''
     }
   }
 
@@ -36,6 +37,12 @@ class App extends React.Component {
   handleNumberChange = (event) => {
     this.setState({
       newNumber: event.target.value
+    })
+  }
+
+  handleFind = (event) => {
+    this.setState({
+      findWith: event.target.value
     })
   }
 
@@ -62,9 +69,16 @@ class App extends React.Component {
     }
   }
   render() {
+    const personsToShow = 
+       this.state.findWith.length === 0 ? this.state.persons : this.state.persons.filter(person => person.name.toUpperCase().includes(this.state.findWith.toUpperCase()))
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        Rajaa luetteloa: <input
+          placeholder='Nimi'
+          value={this.state.findWith}
+          onChange={this.handleFind}
+        />
         <form onSubmit={this.addName}>
           <div>
             nimi: <input
@@ -85,7 +99,8 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <Person persons={this.state.persons} />
+        {console.log(personsToShow)}
+        <Person persons={personsToShow} />
       </div>
     )
   }
