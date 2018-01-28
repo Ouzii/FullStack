@@ -56,7 +56,20 @@ class App extends React.Component {
     }
 
     if (this.state.persons.some(isOld)) {
-      alert("Nimi on jo listassa")
+      if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const helpArray = this.state.persons.filter(p => p.name.toUpperCase() === person.name.toUpperCase())
+        const personToUpdate = helpArray[0]
+        personService
+          .update(personToUpdate.id, person)
+          .then(updatedPerson => {
+            const persons = this.state.persons.filter(p => p.id !== personToUpdate.id)
+            this.setState({
+              persons: persons.concat(updatedPerson),
+              newName: '',
+              newNumber: ''
+            })
+          })
+      }
     } else {
 
       personService
