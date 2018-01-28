@@ -1,17 +1,12 @@
 import React from 'react';
 import Person from './components/Person'
-
+import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [
-        { name: 'Arto Hellas', number: '040-123456' },
-        { name: 'Martti Tienari', number: '040-123456' },
-        { name: 'Arto Järvinen', number: '040-123456' },
-        { name: 'Lea Kutvonen', number: '040-123456' }
-      ],
+      persons: [],
       newName: '',
       newNumber: '',
       findWith: ''
@@ -43,6 +38,7 @@ class App extends React.Component {
       number: this.state.newNumber
     }
 
+    
     let isOld = function (element) {
       return element.name.toUpperCase() === person.name.toUpperCase()
     }
@@ -58,6 +54,15 @@ class App extends React.Component {
       })
     }
   }
+
+  componentWillMount() {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        this.setState({ persons: response.data })
+      })
+  }
+
   render() {
     const personsToShow = 
        this.state.findWith.length === 0 ? this.state.persons : this.state.persons.filter(person => person.name.toUpperCase().includes(this.state.findWith.toUpperCase()))
