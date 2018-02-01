@@ -6,6 +6,7 @@ const cors = require('cors')
 
 app.use(bodyParser.json())
 app.use(cors())
+app.use(express.static('build'))
 
 const logger = (request, response, next) => {
     console.log('Method:',request.method)
@@ -98,5 +99,5 @@ const error = (request, response) => {
     response.status(404).send({error: 'unknown endpoint'})
   }
   
-  app.use(error)
+app.use(error)
 
