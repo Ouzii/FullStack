@@ -63,7 +63,7 @@ class App extends React.Component {
 
   toggleImportanceOf = (id) => {
     return () => {
-      const url = `http://localhost:3001/notes/${id}`
+      const url = `https://salty-fortress-24184.herokuapp.com/api/notes/${id}`
       const note = this.state.notes.find(n => n.id === id)
       const changedNote = { ...note, important: !note.important }
 
