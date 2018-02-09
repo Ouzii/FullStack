@@ -2,7 +2,9 @@ const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const { initialBlogs, blogsInDb } = require('./test_helper')
+const { initialUsers, usersInDb } = require('./users_test_helper.js')
 
 describe('when there is initially some blogs saved', async () => {
 
@@ -14,10 +16,6 @@ describe('when there is initially some blogs saved', async () => {
         const promiseArray = blogObjects.map(blog => blog.save())
         await Promise.all(promiseArray)
 
-    })
-
-    afterAll(() => {
-        server.close()
     })
 
     test('all blogs are returned as json by GET /api/blogs', async () => {
@@ -151,7 +149,7 @@ describe('when there is initially some blogs saved', async () => {
 
             const afterDeletion = await blogsInDb()
             const afterDeletionTitles = afterDeletion.map(b => b.title)
-            expect(afterDeletion.length).toBe(beforeTest.length-1)
+            expect(afterDeletion.length).toBe(beforeTest.length - 1)
             expect(afterDeletionTitles).not.toContain(newBlog.title)
         })
     })
@@ -176,17 +174,76 @@ describe('when there is initially some blogs saved', async () => {
                 title: newBlog.title,
                 author: newBlog.author,
                 url: newBlog.url,
-                likes: newBlog.likes+1
+                likes: newBlog.likes + 1
             }
             await api
-                    .put(`/api/blogs/${newBlog._id}`)
-                    .send(updatedNewBlog)
-                    .expect(200)
+                .put(`/api/blogs/${newBlog._id}`)
+                .send(updatedNewBlog)
+                .expect(200)
 
             const afterUpdate = await blogsInDb()
 
             expect(beforeTest.length).toBe(afterUpdate.length)
-            expect(afterUpdate[afterUpdate.length-1].likes).toBe(1)
+            expect(afterUpdate[afterUpdate.length - 1].likes).toBe(1)
         })
     })
+})
+
+describe('requires initial users in db', async () => {
+
+    beforeAll(async () => {
+        await User.remove({})
+
+        const userObjects = initialUsers.map(user => new User(user))
+        const promiseArray = userObjects.map(user => user.save())
+        await Promise.all(promiseArray)
+    })
+
+    test('POST /api/users fails with proper statuscode and message if username already taken', async () => {
+        const usersBeforeOperation = await usersInDb()
+
+        const newUser = {
+            username: "Ouzii",
+            name: "Oskari Laaja",
+            password: "salainen",
+            adult: true
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(result.body).toEqual({ error: 'username must be unique' })
+
+        const usersAfterOperation = await usersInDb()
+        expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
+    })
+
+    test('POST /api/users fails with proper statuscode and message is password is too short', async () => {
+        const usersBeforeOperation = await usersInDb()
+        
+                const newUser = {
+                    username: "Ouzii3",
+                    name: "Oskari Laaja",
+                    password: "sa",
+                    adult: true
+                }
+        
+                const result = await api
+                    .post('/api/users')
+                    .send(newUser)
+                    .expect(400)
+                    .expect('Content-Type', /application\/json/)
+        
+                expect(result.body).toEqual({ error: 'password must be at least 3 characters long' })
+        
+                const usersAfterOperation = await usersInDb()
+                expect(usersAfterOperation.length).toBe(usersBeforeOperation.length)
+    })
+})
+
+afterAll(() => {
+    server.close()
 })
