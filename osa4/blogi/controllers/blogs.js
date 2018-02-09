@@ -5,29 +5,60 @@ const Blog = require('../models/blog')
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
   response.json(blogs)
-    
+
 })
 
 blogRouter.post('/', async (request, response) => {
-    try {
-      const body = request.body
+  try {
+    const body = request.body
 
-      if (body.title === undefined || body.url === undefined) {
-          return response.status(400).json({ error: 'title or url is missing' })
-      }
+    if (body.title === undefined || body.url === undefined) {
+      return response.status(400).json({ error: 'title or url is missing' })
+    }
 
-      const blog = new Blog({
-          title: body.title,
-          author: body.author,
-          url: body.url,
-          likes: body.likes === undefined ? 0 : body.likes
-      })
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes === undefined ? 0 : body.likes
+    })
 
-      const savedBlog = await blog.save()
-      response.json(savedBlog)
+    const savedBlog = await blog.save()
+    response.json(savedBlog)
   } catch (exception) {
-      console.log(exception)
-      response.status(500).json({ error: 'something went wrong...' })
+    console.log(exception)
+    response.status(500).json({ error: 'something went wrong...' })
+  }
+})
+
+blogRouter.delete('/:id', async (request, response) => {
+  try {
+    await Blog.findByIdAndRemove(request.params.id)
+
+    response.status(204).end()
+  } catch (exception) {
+    console.log(exception)
+    response.status(400).send({ error: 'malformatted id' })
+  }
+})
+
+blogRouter.put('/:id', async (request, response) => {
+  try {
+    const body = request.body
+
+    const blog = {
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+
+    response.json(updatedBlog)
+  } catch (exception) {
+    console.log(exception)
+    response.status(400).send({ error: 'malformatted id' })
   }
 })
 

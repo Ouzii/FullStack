@@ -3,7 +3,7 @@ const dummy = require('../utils/list_helper').dummy
 const favoriteBlog = require('../utils/list_helper').favoriteBlog
 const mostBlogs = require('../utils/list_helper').mostBlogs
 const mostLikes = require('../utils/list_helper').mostLikes
-const blogs = require('../testData/initialBlogs').blogs
+const { initialBlogs } = require('./test_helper')
 
 
 describe('dummy is called', () => {
@@ -18,7 +18,7 @@ describe('dummy is called', () => {
 describe('total likes', () => {
 
     test('returns the total amount of likes for blogs in array', () => {
-        const result = totalLikes(blogs)
+        const result = totalLikes(initialBlogs)
         expect(result).toBe(36)
     })
 })
@@ -26,15 +26,15 @@ describe('total likes', () => {
 describe('Favorite blog', () => {
 
     test('returns the blog with most likes', () => {
-        const result = favoriteBlog(blogs)
-        expect(result).toEqual(blogs[2])
+        const result = favoriteBlog(initialBlogs)
+        expect(result).toEqual(initialBlogs[2])
     })
 })
 
 describe('Most blogs', () => {
 
     test('return the author with most blogs and the amount of them', () => {
-        const result = mostBlogs(blogs)
+        const result = mostBlogs(initialBlogs)
         expect(result).toEqual({
             author: "Robert C. Martin",
             blogs: 3
@@ -45,7 +45,7 @@ describe('Most blogs', () => {
 describe('Most likes on an author', () => {
 
     test('return the author who\'s blogs have gained most likes', () => {
-        const result = mostLikes(blogs)
+        const result = mostLikes(initialBlogs)
         expect(result).toEqual({
             author: "Edsger W. Dijkstra",
             likes: 17
