@@ -14,8 +14,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "node_modules/.bin/jest --verbose",
     "eject": "react-scripts eject",
     "watch": "node_modules/.bin/nodemon index.js"
+  },
+  "devDependencies": {
+    "jest": "^22.2.1"
   }
 }
