@@ -1,0 +1,21 @@
+{
+  "name": "blogi",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.0",
+    "mongoose": "^5.0.4",
+    "express": "^4.16.2",
+    "cors": "^2.8.4",
+    "nodemon": "^1.14.12"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "watch": "node_modules/.bin/nodemon index.js"
+  }
+}
