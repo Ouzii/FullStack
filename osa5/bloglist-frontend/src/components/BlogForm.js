@@ -31,6 +31,7 @@ class BlogForm extends React.Component {
         
         const blog = await blogService.create(blogObject)
         this.props.newBlog(blog)
+        console.log(`uusi: ${blog}`)
     }
 
     render() {

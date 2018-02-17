@@ -11,6 +11,11 @@ blogRouter.get('/', async (request, response) => {
 
 })
 
+blogRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1})
+  response.json(blog)
+})
+
 blogRouter.post('/', async (request, response) => {
 
   const body = request.body
@@ -62,7 +67,7 @@ blogRouter.delete('/:id', async (request, response) => {
     const user = await User.findById(decodedToken.id)
 
     const blog = await Blog.findById(request.params.id)
-    if (blog.user.toString() === user._id.toString()) {
+    if (blog.user.toString() === user._id.toString() || blog.user === null) {
       await Blog.findByIdAndRemove(request.params.id)
     } else {
       return response.status(401).json({ error: 'token missing or invalid' })
@@ -71,7 +76,7 @@ blogRouter.delete('/:id', async (request, response) => {
     response.status(204).end()
   } catch (exception) {
     console.log(exception)
-    response.status(400).send({ error: 'malformatted id' })
+    return response.status(400).send({ error: 'malformatted id' })
   }
 })
 

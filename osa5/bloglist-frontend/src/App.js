@@ -19,12 +19,26 @@ class App extends React.Component {
       error: false,
       blogFormVisible: null
     }
+    this.reRender = this.reRender.bind(this)
   }
 
-  componentDidMount() {
-    blogService.getAll().then(blogs =>
-      this.setState({ blogs })
-    )
+  reRender = (props) => {
+    this.setState({
+      blogs: this.state.blogs.filter(blog => blog._id !== props._id),
+      notification: `${props.title} by ${props.author} deleted`
+    })
+    setTimeout(() => {
+      this.setState({ notification: null, error: false })
+    }, 3000)
+  }
+
+  async componentDidMount() {
+    const blogs = await blogService.getAll()
+    blogs.sort(function(a, b) {
+      return b.likes - a.likes
+    })
+
+    this.setState({ blogs })
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -79,18 +93,17 @@ class App extends React.Component {
       this.setState({ blogFormVisible: null })
   }
 
-  newBlog = (props) => {
-    const blog = {
-      title: props.title,
-      author: props.author,
-      url: props.url,
-      likes: props.likes,
-      _id: props.id
-    }
-    this.setState({
-      blogs: this.state.blogs.concat(blog),
-      notification: `A new blog '${blog.title}' by ${blog.author} added`
+  newBlog = async (props) => {
+    const blogs = await blogService.getAll()
+    blogs.sort(function(a, b) {
+      return b.likes - a.likes
     })
+
+    this.setState({ 
+      blogs,
+      notification: `A new blog '${props.title}' by ${props.author} added`
+     })
+    console.log(this.state.blogs)
     setTimeout(() => {
       this.setState({ notification: null })
     }, 3000)
@@ -125,7 +138,7 @@ class App extends React.Component {
             </Togglable>
             <br></br>
             {this.state.blogs.map(blog =>
-              <Blog key={blog._id} blog={blog} />
+              <Blog key={blog._id} blog={blog} user={this.state.user} destroy={this.reRender}/>
             )}
           </div>
         }
