@@ -34,9 +34,4 @@ const remove = async (blog, user) => {
     return response
 }
 
-const getOne = async (id) => {
-  const response = await axios.get(`${baseUrl}/${id}`)
-  return response
-}
-
-export default { getAll, create, update, remove, setToken, getOne }
+export default { getAll, create, update, remove, setToken }
