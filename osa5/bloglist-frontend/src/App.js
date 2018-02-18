@@ -19,10 +19,10 @@ class App extends React.Component {
       error: false,
       blogFormVisible: null
     }
-    this.reRender = this.reRender.bind(this)
+    this.deleteBlogFromBlogs = this.deleteBlogFromBlogs.bind(this)
   }
 
-  reRender = (props) => {
+  deleteBlogFromBlogs = (props) => {
     this.setState({
       blogs: this.state.blogs.filter(blog => blog._id !== props._id),
       notification: `${props.title} by ${props.author} deleted`
@@ -39,7 +39,6 @@ class App extends React.Component {
     })
 
     this.setState({ blogs })
-
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -123,7 +122,7 @@ class App extends React.Component {
     )
 
     return (
-      <div>
+      <div className='content'>
         <Notification message={this.state.notification} error={this.state.error} />
         {this.state.user === null ?
           loginForm() :
@@ -138,7 +137,7 @@ class App extends React.Component {
             </Togglable>
             <br></br>
             {this.state.blogs.map(blog =>
-              <Blog key={blog._id} blog={blog} user={this.state.user} destroy={this.reRender}/>
+              <Blog key={blog._id} blog={blog} user={this.state.user} destroy={this.deleteBlogFromBlogs}/>
             )}
           </div>
         }

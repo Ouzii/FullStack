@@ -18,7 +18,7 @@ describe('<Blog />', () => {
             name: 'Keijo',
             username: 'KK'
         }
-        const blogComponent = shallow(<Blog blog={blog} user={user}/>)
+        const blogComponent = shallow(<Blog blog={blog} user={user} destroy={function() {return null}}/>)
         const contentDiv = blogComponent.find('.contentBeforeClick')
         
         expect(contentDiv.text()).toContain(blog.title)
@@ -42,7 +42,7 @@ describe('<Blog />', () => {
             name: 'Keijo',
             username: 'KK'
         }
-        const blogComponent = shallow(<Blog blog={blog} user={user}/>)
+        const blogComponent = shallow(<Blog blog={blog} user={user} destroy={function() {return null}}/>)
         const titleDiv = blogComponent.find('.titleBeforeClick')
         titleDiv.simulate('click')
         const contentDiv = blogComponent.find('.contentAfterClick')
