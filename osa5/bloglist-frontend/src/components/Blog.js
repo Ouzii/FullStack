@@ -62,11 +62,11 @@ class Blog extends React.Component {
 
     return (
       <div style={blogStyle}>
-        <div style={hideWhenVisible} onClick={this.changeVisibility}>
-          {this.state.blog.title} {this.state.blog.author}
+        <div style={hideWhenVisible} className='contentBeforeClick'>
+          <p onClick={this.changeVisibility} className='titleBeforeClick'>{this.state.blog.title} {this.state.blog.author}</p>
         </div>
-        <div style={showWhenVisible}>
-          <p onClick={this.changeVisibility}>{this.state.blog.title} {this.state.blog.author}</p>
+        <div style={showWhenVisible} className='contentAfterClick'>
+          <p onClick={this.changeVisibility} className='titleAfterClick'>{this.state.blog.title} {this.state.blog.author}</p>
           <a>{this.state.blog.url}</a>
           <p>{this.state.blog.likes} <button onClick={this.handleLike}>like</button></p>
           <p>added by {addedBy}</p>
