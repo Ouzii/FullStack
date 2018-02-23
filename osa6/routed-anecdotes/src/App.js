@@ -1,22 +1,50 @@
 import React from "react";
-import { BrowserRouter as Router, Route, NavLink, Redirect } from "react-router-dom";
-import { ListGroup, ListGroupItem, Grid, Row, Col } from 'react-bootstrap'
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Redirect
+} from "react-router-dom";
+import {
+  ListGroup,
+  ListGroupItem,
+  Grid,
+  Row,
+  Col,
+  PageHeader,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Form,
+  Button
+} from "react-bootstrap";
 const menuStyle = {
+  position: 'fixed',
+  top: 60,
   backgroundColor: 'lightgreen',
-  width: 180
-}
+  zIndex: 1,
+  borderRadius: 10
+};
 
 const activeStyle = {
-  backgroundColor: 'orange',
-  borderRadius: 25
-}
+  backgroundColor: "orange",
+  borderRadius: 10
+};
 const Menu = () => (
   <div>
+    <PageHeader>
       <div style={menuStyle}>
-        <NavLink exact to="/" activeStyle={activeStyle}>anecdotes</NavLink>&nbsp;
-        <NavLink to="/create" activeStyle={activeStyle}>create new</NavLink>&nbsp;
-        <NavLink to="/about" activeStyle={activeStyle}>about</NavLink>&nbsp;
+        <NavLink exact to="/" activeStyle={activeStyle}>
+          anecdotes
+        </NavLink>&nbsp;
+        <NavLink to="/create" activeStyle={activeStyle}>
+          create new
+        </NavLink>&nbsp;
+        <NavLink to="/about" activeStyle={activeStyle}>
+          about
+        </NavLink>&nbsp;
       </div>
+    </PageHeader>
   </div>
 );
 
@@ -24,10 +52,11 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ListGroup>
-      {anecdotes.map(anecdote => 
-      <ListGroupItem key={anecdote.id}>
-      <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
-      </ListGroupItem>)}
+      {anecdotes.map(anecdote => (
+        <ListGroupItem key={anecdote.id}>
+          <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
+        </ListGroupItem>
+      ))}
     </ListGroup>
   </div>
 );
@@ -36,35 +65,44 @@ const About = () => (
   <div>
     <Grid>
       <Row>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
+        <h2>About anecdote app</h2>
+        <p>According to Wikipedia:</p>
 
-    <Col xs={6} md={2}>
-    <em>
-      An anecdote is a brief, revealing account of an individual person or an
-      incident. Occasionally humorous, anecdotes differ from jokes because their
-      primary purpose is not simply to provoke laughter but to reveal a truth
-      more general than the brief tale itself, such as to characterize a person
-      by delineating a specific quirk or trait, to communicate an abstract idea
-      about a person, place, or thing through the concrete details of a short
-      narrative. An anecdote is "a story with a point."
-    </em>
-    
-    <p>
-      Software engineering is full of excellent anecdotes, at this app you can
-      find the best and add more.
-    </p>
-    </Col>
-    <Col xs={2} md={2}>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/250px-Edsger_Wybe_Dijkstra.jpg"/>
-    </Col>
-    </Row>
+        <Col xs={6} md={2}>
+          <em>
+            An anecdote is a brief, revealing account of an individual person or
+            an incident. Occasionally humorous, anecdotes differ from jokes
+            because their primary purpose is not simply to provoke laughter but
+            to reveal a truth more general than the brief tale itself, such as
+            to characterize a person by delineating a specific quirk or trait,
+            to communicate an abstract idea about a person, place, or thing
+            through the concrete details of a short narrative. An anecdote is "a
+            story with a point."
+          </em>
+
+          <p>
+            Software engineering is full of excellent anecdotes, at this app you
+            can find the best and add more.
+          </p>
+        </Col>
+        <Col xs={2} md={2}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/250px-Edsger_Wybe_Dijkstra.jpg" />
+        </Col>
+      </Row>
     </Grid>
   </div>
 );
 
+const footerStyle = {
+  position: 'fixed',
+  bottom: 0,
+  zIndex: 1,
+  backgroundColor: 'orange',
+  borderRadius: 5
+}
+
 const Footer = () => (
-  <div>
+  <div style={footerStyle}>
     Anecdote app for{" "}
     <a href="https://courses.helsinki.fi/fi/TKT21009/121540749">
       Full Stack -sovelluskehitys
@@ -78,35 +116,36 @@ const Footer = () => (
 
 const Anecdote = ({ anecdote }) => {
   return (
-  <div>
-    <h1>{anecdote.content}</h1>
-    <br></br>
-    <p>has {anecdote.votes} votes</p>
-    <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
-  </div>
-  )
-}
+    <div>
+      <h1>{anecdote.content}</h1>
+      <br />
+      <p>has {anecdote.votes} votes</p>
+      <p>
+        for more info see <a href={anecdote.info}>{anecdote.info}</a>
+      </p>
+    </div>
+  );
+};
 
 const notificationStyle = {
-  borderStyle: 'groove',
-  borderColor: 'pink',
-  color: 'darkgreen',
-  backgroundColor: 'orange',
+  borderStyle: "groove",
+  borderColor: "pink",
+  color: "darkgreen",
+  backgroundColor: "orange",
   fontSize: 18,
-  fontWeight: 'bold'
-
-}
+  fontWeight: "bold"
+};
 const Notification = ({ notification }) => {
   return (
-  <div>
-    {notification !== '' ? 
-    <p style={notificationStyle}>{notification}</p>
-    :
-    <div></div>
-    }
-  </div>
-  )
-}
+    <div>
+      {notification !== "" ? (
+        <p style={notificationStyle}>{notification}</p>
+      ) : (
+        <div />
+      )}
+    </div>
+  );
+};
 
 class CreateNew extends React.Component {
   constructor() {
@@ -134,48 +173,38 @@ class CreateNew extends React.Component {
     });
     this.setState({
       redirect: true
-    })
+    });
   };
 
   render() {
     return (
       <div>
-      {this.state.redirect ? 
-      <div>
-      <Redirect to="/" />
-      </div>
-      :
-      <div>
-        <h2>create a new anecdote</h2>
-        <form onSubmit={this.handleSubmit}>
+        {this.state.redirect ? (
           <div>
-            content
-            <input
-              name="content"
-              value={this.state.content}
-              onChange={this.handleChange}
-            />
+            <Redirect to="/" />
           </div>
+        ) : (
           <div>
-            author
-            <input
-              name="author"
-              value={this.state.author}
-              onChange={this.handleChange}
-            />
+            <Form onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <h2>create a new anecdote</h2>
+                <ControlLabel>Content</ControlLabel>
+                <FormControl type="text" label="text" placeholder="Content" name="content" value={this.state.content} onChange={this.handleChange}/>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Author</ControlLabel>
+                <FormControl type="text" placeholder="Author" name="author" value={this.state.author} onChange={this.handleChange}/>
+              </FormGroup>
+              <FormGroup>
+                <ControlLabel>Url for more info</ControlLabel>
+                <FormControl type="text" placeholder="Author" name="info"
+                    value={this.state.info}
+                    onChange={this.handleChange}/>
+              </FormGroup>
+                <Button type="submit">Create</Button>
+            </Form>
           </div>
-          <div>
-            url for more info
-            <input
-              name="info"
-              value={this.state.info}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button type="submit">create</button>
-        </form>
-      </div>
-      }
+        )}
       </div>
     );
   }
@@ -209,15 +238,18 @@ class App extends React.Component {
 
   addNew = anecdote => {
     anecdote.id = (Math.random() * 10000).toFixed(0);
-    this.setState({ anecdotes: this.state.anecdotes.concat(anecdote), notification: `a new anecdote ${anecdote.content} created!` });
+    this.setState({
+      anecdotes: this.state.anecdotes.concat(anecdote),
+      notification: `a new anecdote ${anecdote.content} created!`
+    });
     setTimeout(() => {
       this.setState({
-        notification: ''
-      })
-    }, 10000)
+        notification: ""
+      });
+    }, 10000);
   };
 
-  anecdoteById = (id) => this.state.anecdotes.find(a => a.id === id);
+  anecdoteById = id => this.state.anecdotes.find(a => a.id === id);
 
   vote = id => {
     const anecdote = this.anecdoteById(id);
@@ -235,20 +267,33 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>Software anecdotes</h1>
+        <h1 style={headerStyle}>Software anecdotes</h1>
         <Router>
-          <div>
+          <div style={{paddingTop: 100}}>
             <div>
               <Menu />
             </div>
             <Notification notification={this.state.notification} />
             <div>
-              <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
+              <Route
+                exact
+                path="/"
+                render={() => <AnecdoteList anecdotes={this.state.anecdotes} />}
+              />
               <Route path="/about" render={() => <About />} />
-              <Route path="/create" render={() => <CreateNew addNew={this.addNew} />} />
-              <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />} />
+              <Route
+                path="/create"
+                render={() => <CreateNew addNew={this.addNew} />}
+              />
+              <Route
+                exact
+                path="/anecdotes/:id"
+                render={({ match }) => (
+                  <Anecdote anecdote={this.anecdoteById(match.params.id)} />
+                )}
+              />
             </div>
-         </div>
+          </div>
         </Router>
         <Footer />
       </div>
@@ -256,6 +301,12 @@ class App extends React.Component {
   }
 }
 
-
+const headerStyle = {
+  position: 'fixed',
+  top: 0,
+  zIndex: 1,
+  backgroundColor: 'orange',
+  borderRadius: 10
+}
 
 export default App;
