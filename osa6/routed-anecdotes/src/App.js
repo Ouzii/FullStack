@@ -1,12 +1,21 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, NavLink, Redirect } from "react-router-dom";
 
+const menuStyle = {
+  backgroundColor: 'lightgreen',
+  width: 180
+}
+
+const activeStyle = {
+  backgroundColor: 'orange',
+  borderRadius: 25
+}
 const Menu = () => (
   <div>
-      <div>
-        <Link to="/">anecdotes</Link>&nbsp;
-        <Link to="/create">create new</Link>&nbsp;
-        <Link to="/about">about</Link>&nbsp;
+      <div style={menuStyle}>
+        <NavLink exact to="/" activeStyle={activeStyle}>anecdotes</NavLink>&nbsp;
+        <NavLink to="/create" activeStyle={activeStyle}>create new</NavLink>&nbsp;
+        <NavLink to="/about" activeStyle={activeStyle}>about</NavLink>&nbsp;
       </div>
   </div>
 );
@@ -17,7 +26,7 @@ const AnecdoteList = ({ anecdotes }) => (
     <ul>
       {anecdotes.map(anecdote => 
       <li key={anecdote.id}>
-      <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+      <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
       </li>)}
     </ul>
   </div>
@@ -69,11 +78,20 @@ const Anecdote = ({ anecdote }) => {
   )
 }
 
+const notificationStyle = {
+  borderStyle: 'groove',
+  borderColor: 'pink',
+  color: 'darkgreen',
+  backgroundColor: 'orange',
+  fontSize: 18,
+  fontWeight: 'bold'
+
+}
 const Notification = ({ notification }) => {
   return (
   <div>
     {notification !== '' ? 
-    <p>{notification}</p>
+    <p style={notificationStyle}>{notification}</p>
     :
     <div></div>
     }
