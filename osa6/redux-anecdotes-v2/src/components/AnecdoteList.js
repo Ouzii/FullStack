@@ -7,10 +7,7 @@ import { setNotification } from '../reducers/notificationReducer'
 class AnecdoteList extends React.Component {
   handleVote = (anecdote) => {
     this.props.addVote(anecdote)
-    this.props.setNotification(`you voted ${anecdote.content}`)
-    setTimeout(() => {
-      this.props.setNotification('')
-    }, 5000)
+    this.props.setNotification(`you voted '${anecdote.content}'`, 1)
   }
   render() {
     return (

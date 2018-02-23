@@ -5,13 +5,9 @@ import { setNotification } from '../reducers/notificationReducer'
 class AnecdoteForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
-    const content = e.target.anecdote.value
-    this.props.createNew(content)
-    this.props.setNotification(`you added ${content}`)
+    this.props.createNew(e.target.anecdote.value)
+    this.props.setNotification(`you added ${e.target.anecdote.value}`, 1)
     e.target.anecdote.value = ''
-    setTimeout(() => {
-      this.props.setNotification('')
-    }, 5000)
   }
 
   render() {

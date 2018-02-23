@@ -7,6 +7,10 @@ import { connect } from 'react-redux'
 
 class App extends React.Component {
 
+  componentWillMount() {
+    this.props.initializeAnecdotes()
+  }
+
   render() {
     return (
       <div>
