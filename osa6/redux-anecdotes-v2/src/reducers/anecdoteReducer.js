@@ -25,15 +25,21 @@ export const createNew = (content) => {
 }
 
 export const addVote = (anecdote) => {
-  return (
-    {
+  return {
       type: 'VOTE',
       id: anecdote.id
     }
-  )
 }
 
-
+export const initializeAnecdotes = () => {
+  return (dispatch) => {
+    const anecdotes = anecdotesAtStart
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      anecdotes: anecdotes
+    })
+  }
+}
 
 const initialState = anecdotesAtStart.map(asObject)
 

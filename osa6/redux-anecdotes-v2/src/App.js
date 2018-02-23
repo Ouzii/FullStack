@@ -2,20 +2,24 @@ import React from 'react'
 import Notification from './components/Notification'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
+import { initializeAnecdotes } from './reducers/anecdoteReducer'
+import { connect } from 'react-redux'
 
 class App extends React.Component {
 
   render() {
-    this.props.store.getState()
     return (
       <div>
         <h1>Programming anecdotes</h1>
-        <Notification store={this.props.store}/>
-        <AnecdoteList store={this.props.store} />
-        <AnecdoteForm store={this.props.store} />
+        <Notification />
+        <AnecdoteList />
+        <AnecdoteForm />
       </div>
     )
   }
 }
 
-export default App
+export default connect(
+  null,
+  { initializeAnecdotes }
+)(App)

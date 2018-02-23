@@ -1,22 +1,24 @@
 import React from 'react'
 import { filterChange } from '../reducers/filterReducer'
-
+import { connect } from 'react-redux'
 class Filter extends React.Component {
     handleChange = (event) => {
-      // input-kentän arvo muuttujassa event.target.value
-      this.props.store.dispatch(filterChange(event.target.value))
+        this.props.filterChange(event.target.value)
     }
     render() {
-      const style = {
-        marginBottom: 10
-      }
-  
-      return (
-        <div style={style}>
-          filter <input onChange={this.handleChange}/>
-        </div>
-      )
-    }
-  }
+        const style = {
+            marginBottom: 10
+        }
 
-export default Filter
+        return (
+            <div style={style}>
+                filter <input onChange={this.handleChange} />
+            </div>
+        )
+    }
+}
+
+export default connect(
+    (state) => ({ filter: state.filter }),
+    { filterChange }
+)(Filter)
